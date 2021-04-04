@@ -1,0 +1,7 @@
+[
+	{ "Person" : "Jade", "Text" : "Hey." },
+	{ "Person" : "Toby", "Text" : "Oh hey its you." },
+	{ "Person" : "Toby", "Text" : "My name is Toby, %fyou're Jade right?" },
+	{ "Person" : "Jade", "Text" : "Yes it's me, how are you?" },
+	{ "Person" : "Toby", "Text" : "I'm fine" }
+]

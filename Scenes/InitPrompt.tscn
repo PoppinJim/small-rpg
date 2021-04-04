@@ -1,0 +1,170 @@
+[gd_scene load_steps=21 format=2]
+
+[ext_resource path="res://Sprites/talkPrompt.png" type="Texture" id=1]
+[ext_resource path="res://Scripts/Choice.gd" type="Script" id=2]
+[ext_resource path="res://Sprites/observePrompt.png" type="Texture" id=3]
+[ext_resource path="res://Sprites/cancelPrompt.png" type="Texture" id=4]
+[ext_resource path="res://Scripts/InitPrompt.gd" type="Script" id=5]
+
+[sub_resource type="AtlasTexture" id=1]
+atlas = ExtResource( 1 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=2]
+atlas = ExtResource( 1 )
+region = Rect2( 48, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=3]
+atlas = ExtResource( 1 )
+region = Rect2( 96, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=4]
+atlas = ExtResource( 1 )
+region = Rect2( 144, 0, 48, 48 )
+
+[sub_resource type="SpriteFrames" id=5]
+animations = [ {
+"frames": [ SubResource( 1 ), SubResource( 2 ), SubResource( 3 ), SubResource( 4 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="CircleShape2D" id=6]
+radius = 23.0217
+
+[sub_resource type="AtlasTexture" id=8]
+atlas = ExtResource( 3 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=9]
+atlas = ExtResource( 3 )
+region = Rect2( 48, 0, 48, 48 )
+
+[sub_resource type="SpriteFrames" id=10]
+animations = [ {
+"frames": [ SubResource( 8 ), SubResource( 9 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="AtlasTexture" id=12]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=13]
+atlas = ExtResource( 4 )
+region = Rect2( 0, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=14]
+atlas = ExtResource( 4 )
+region = Rect2( 48, 0, 48, 48 )
+
+[sub_resource type="AtlasTexture" id=15]
+atlas = ExtResource( 4 )
+region = Rect2( 96, 0, 48, 48 )
+
+[sub_resource type="SpriteFrames" id=16]
+animations = [ {
+"frames": [ SubResource( 12 ), SubResource( 13 ), SubResource( 14 ), SubResource( 15 ) ],
+"loop": true,
+"name": "default",
+"speed": 5.0
+} ]
+
+[sub_resource type="Animation" id=18]
+length = 0.4
+tracks/0/type = "bezier"
+tracks/0/path = NodePath("talkChoice:position:x")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0, 64, 55, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.4 )
+}
+tracks/1/type = "bezier"
+tracks/1/path = NodePath("observeChoice:position:x")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0, -64, -55, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.4 )
+}
+tracks/2/type = "bezier"
+tracks/2/path = NodePath("cancelChoice:position:y")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"points": PoolRealArray( 0, -0.25, 0, 0, -64, -55, -0.25, 0, 0.25, 0 ),
+"times": PoolRealArray( 0, 0.4 )
+}
+
+[node name="InitPrompt" type="Node2D"]
+script = ExtResource( 5 )
+
+[node name="talkChoice" type="AnimatedSprite" parent="." groups=[
+"bubbleChoice",
+]]
+frames = SubResource( 5 )
+playing = true
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+option = "TALK"
+
+[node name="Area2D" type="Area2D" parent="talkChoice"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="talkChoice/Area2D"]
+shape = SubResource( 6 )
+
+[node name="observeChoice" type="AnimatedSprite" parent="." groups=[
+"bubbleChoice",
+]]
+frames = SubResource( 10 )
+frame = 1
+playing = true
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+option = "OBSERVE"
+
+[node name="Area2D" type="Area2D" parent="observeChoice"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="observeChoice/Area2D"]
+shape = SubResource( 6 )
+
+[node name="cancelChoice" type="AnimatedSprite" parent="." groups=[
+"bubbleChoice",
+]]
+frames = SubResource( 16 )
+frame = 3
+playing = true
+script = ExtResource( 2 )
+__meta__ = {
+"_edit_group_": true
+}
+option = "CANCEL"
+
+[node name="Area2D" type="Area2D" parent="cancelChoice"]
+scale = Vector2( 1e-05, 1e-05 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="cancelChoice/Area2D"]
+shape = SubResource( 6 )
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+anims/STARTUP = SubResource( 18 )
+[connection signal="mouse_entered" from="talkChoice/Area2D" to="talkChoice" method="_on_Area2D_mouse_entered"]
+[connection signal="mouse_exited" from="talkChoice/Area2D" to="talkChoice" method="_on_Area2D_mouse_exited"]
+[connection signal="mouse_entered" from="observeChoice/Area2D" to="observeChoice" method="_on_Area2D_mouse_entered"]
+[connection signal="mouse_exited" from="observeChoice/Area2D" to="observeChoice" method="_on_Area2D_mouse_exited"]
+[connection signal="mouse_entered" from="cancelChoice/Area2D" to="cancelChoice" method="_on_Area2D_mouse_entered"]
+[connection signal="mouse_exited" from="cancelChoice/Area2D" to="cancelChoice" method="_on_Area2D_mouse_exited"]
